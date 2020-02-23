@@ -30,6 +30,9 @@ private:
     // Alternative:
     // -->> [ChatBot *_chatBot] => [std::unique_ptr<ChatBot> _chatBot] ? 
     ChatBot _chatBot;
+    // OPTION 2 ...
+    // std::unique_ptr<ChatBot> _chatBot;  <<== but option 2 results in 
+    // segmentation 11 error that I have not been able to resolve 
 
     ////
     //// EOF STUDENT CODE
@@ -61,7 +64,10 @@ public:
     //  WAS ... void MoveChatbotHere(ChatBot *chatbot);
     //  Then I made it ... void MoveChatbotHere(ChatBot &&chatbot);
     //  But then Move Constructor is not called ...  
-    void MoveChatbotHere(ChatBot chatbot);    
+    //  OPTION 1: 
+    void MoveChatbotHere(ChatBot chatbot); 
+    //  OPTION 2: ... makes ownership very clear?
+    //  void MoveChatbotHere(std::unique_ptr<ChatBot> chatbot); 
 
     ////
     //// EOF STUDENT CODE

@@ -53,15 +53,21 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 //   ALTERNATIVE: MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot)
 //                if _chatBot was a unique_ptr 
 //                => _chatBot.reset(std::move(pChatbot)); => correct?
+//  OPTION 1: 
 void GraphNode::MoveChatbotHere(ChatBot chatbot)
+//  OPTION 2 ... 
+//  void GraphNode::MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot) 
 {
+    // OPTION 1: 
     _chatBot = std::move(chatbot);
     _chatBot.SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
+    // OPTION 1: newNode->MoveChatbotHere(std::move(_chatBot));
     newNode->MoveChatbotHere(std::move(_chatBot));
+
     // WAS ... _chatBot = nullptr; // invalidate pointer at source
     // Nothing to be done?! 
 }
