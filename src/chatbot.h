@@ -25,18 +25,18 @@ public:
     // constructors / destructors
     ChatBot();                     // constructor WITHOUT memory allocation
     ChatBot(std::string filename); // constructor WITH memory allocation
-    ~ChatBot();
+    ~ChatBot();                    // destructor => 1 of Rule of 5 
 
     //// STUDENT CODE - Task 2: The Rule of Five
     ////
 
-    // Copy Constructor - 2/5
+    // Copy Constructor - 2 of Rule of 5 
     ChatBot(const ChatBot& source);
-    // Copy Assignment Operator - 3/5
+    // Copy Assignment Operator - 3 of Rule of 5 
     ChatBot& operator=(const ChatBot& source);
-    // Move Constructor - 4/5
+    // Move Constructor - 4 of Rule of 5 
     ChatBot(ChatBot&& source);
-    // Move Assignment Operator - 5/5 
+    // Move Assignment Operator - 5 of Rule of 5 
     ChatBot& operator=(ChatBot&& source);
  
     ////

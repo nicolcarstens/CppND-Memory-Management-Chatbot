@@ -65,8 +65,11 @@ void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
 
     // send user text to chatbot 
     // GetChatLogicHandle is now a unique pointer obtained with .get() => i don't like! 
-    // Changed to a reference... does that change anything really??
-     _panelDialog->GetChatLogicHandle().SendMessageToChatbot(std::string(userText.mb_str()));
+    // -> Get over it. Yes: dangerous to have a raw pointer of object managed by a 
+    //    smart pointer. Just don't be reckless. Pay attention to ownership. 
+    //    In this case ownership wasn't tranferred, and interface reflects that. 
+    // Changed to a reference... does that change anything really?? * or & -> same 
+     _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
 }
 
 BEGIN_EVENT_TABLE(ChatBotFrameImagePanel, wxPanel)
@@ -122,6 +125,8 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     ////
 
     // create chat logic instance
+    // Notes on make_unique rather than new:
+    // https://stackoverflow.com/questions/37514509/advantages-of-using-stdmake-unique-over-new-operator
     // REMOVED NC: _chatLogic = new ChatLogic(); 
     _chatLogic = std::make_unique<ChatLogic>();
 
@@ -201,7 +206,10 @@ ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel *parent, wxString text, b
     : wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_NONE)
 {
     // retrieve image from chatbot
-    wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle().GetImageFromChatbot(); 
+    // ALTERNATIVE NC: wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle().GetImageFromChatbot(); 
+    // -> depends on GetChatLogicHandle() returning reference or raw pointer - doesn't really mattter 
+    //    ownership is NOT influenced!! (thus no smartpointer transfer - raw pointer or reference fine) 
+    wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle()->GetImageFromChatbot(); 
 
     // create image and text
     _chatBotImg = new wxStaticBitmap(this, wxID_ANY, (isFromUser ? wxBitmap(imgBasePath + "user.png", wxBITMAP_TYPE_PNG) : *bitmap), wxPoint(-1, -1), wxSize(-1, -1));

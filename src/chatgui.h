@@ -30,9 +30,14 @@ public:
     // getter / setter
     // Task 1: Exclusive Ownership 1
     // Is this safe to do? Works but doesn't look safe?
-    // ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }
-    // Return a reference not an pointer... right? 
-    ChatLogic &GetChatLogicHandle() { return *_chatLogic; }
+    //  -> Well, raw pointer and reference access to object managed using smart 
+    //     pointers is unsafe if you are careless. Pay attention to ownership.
+    // ChatBotPanelDialog exclusively owns _chatLogic
+    //  -> this function inferface makes it clear that ownership is not transferred
+    // Return a reference not a pointer... right? Could return pointer or reference.    
+    // REPLACED NC: ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }     
+    // ALTERNATIVE: ChatLogic &GetChatLogicHandle() { return *_chatLogic; }
+    ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }
 
     // events
     void paintEvent(wxPaintEvent &evt);

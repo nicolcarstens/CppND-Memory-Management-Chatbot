@@ -1,3 +1,3 @@
-/Users/nicol/Studying/udacity/cpp_nano/project_03/CppND-Memory-Management-Chatbot/build/CMakeFiles/rebuild_cache.dir
-/Users/nicol/Studying/udacity/cpp_nano/project_03/CppND-Memory-Management-Chatbot/build/CMakeFiles/edit_cache.dir
-/Users/nicol/Studying/udacity/cpp_nano/project_03/CppND-Memory-Management-Chatbot/build/CMakeFiles/membot.dir
+/Users/nicol/Studying/udacity/cpp_nano/project_03_github_clean/CppND-Memory-Management-Chatbot/build/CMakeFiles/rebuild_cache.dir
+/Users/nicol/Studying/udacity/cpp_nano/project_03_github_clean/CppND-Memory-Management-Chatbot/build/CMakeFiles/edit_cache.dir
+/Users/nicol/Studying/udacity/cpp_nano/project_03_github_clean/CppND-Memory-Management-Chatbot/build/CMakeFiles/membot.dir
