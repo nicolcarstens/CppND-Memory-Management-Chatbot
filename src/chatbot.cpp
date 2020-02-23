@@ -16,27 +16,24 @@ ChatBot::ChatBot()
     _chatLogic = nullptr;
     _rootNode = nullptr;
 
-    // NC QUESTION: why is _currentNode not getting set to nullptr??
+    // NC QUESTION: why is _currentNode not getting set to nullptr?
 
-    std::cout << "ChatBot Constructor - WITHOUT memory allocation" << std::endl;
+    // std::cout << "ChatBot Constructor - WITHOUT memory allocation" << std::endl;
 }
 
 // CONSTRUCTOR WITH memory allocation - 0 of 5
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor - WITH memory allocation" << std::endl;
+    std::cout << "ChatBot Constructor" << std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
 
-    // NC QUESTION (again): why is _currentNode not getting set to nullptr??
+    // NC QUESTION (again): why is _currentNode not getting set to nullptr?
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
-
-    std::cout << "I am at " << this << "\n";
-    std::cout << "I allocate _image at ... " << _image << " of size " << sizeof(*_image) << "\n";
 }
 
 // DESTRUCTOR - 1 of 5 
@@ -47,7 +44,7 @@ ChatBot::~ChatBot()
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-        std::cout << "I delete ... " << _image << " of size " <<  sizeof(*_image) << "\n";
+        // std::cout << "I delete ... " << _image << " of size " <<  sizeof(*_image) << "\n";
         delete _image;  // NC NOTE: only delete what you own! 
         _image = NULL;
     }
@@ -74,7 +71,8 @@ ChatBot::ChatBot(const ChatBot& source)
 
     // In the case where you are removing the source ChatBot, makes sense
     // to transfer the SetChatbotHandle... but what about Copy cases??
-    _chatLogic->SetChatbotHandle(this); // NC TO CHECK - MULTIPLE?! TO DO?!    
+    // Should not need to copy the ChatBot? Only one ever created. Unique.
+    _chatLogic->SetChatbotHandle(this);    
 }
 
 // COPY ASSIGNMENT OPERATOR - 3 of 5 
@@ -90,11 +88,8 @@ ChatBot& ChatBot::operator=(const ChatBot& source)
     // But only if something was created! 
     // ChatBot could have been constructed without assignment 
     if (_image != NULL){
-        std::cout << "DEBUG ONLY ... delete own _image " << std::endl;
         delete _image;
-    } else {
-        std::cout << "DEBUG ONLY ... no _image to delete" << std::endl;
-    }
+    } 
 
     //_image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
     _image = new wxBitmap();
@@ -108,8 +103,9 @@ ChatBot& ChatBot::operator=(const ChatBot& source)
     _chatLogic   = source._chatLogic;
 
     // In the case where you are removing the source ChatBot, makes sense
-    // to transfer the SetChatbotHandle... but what about Copy cases??
-    _chatLogic->SetChatbotHandle(this); // NC TO CHECK - MULTIPLE?! TO DO?!
+    // to transfer the SetChatbotHandle... but what about Copy cases?
+    // Should not need to copy the ChatBot? Only one ever created. Unique.    
+    _chatLogic->SetChatbotHandle(this);
 
     return *this;
 }
@@ -126,11 +122,11 @@ ChatBot::ChatBot(ChatBot&& source)
     _chatLogic   = source._chatLogic;
 
     // In the case where you are removing the source ChatBot, makes sense
-    // to transfer the SetChatbotHandle... but what about Copy cases??
-    _chatLogic->SetChatbotHandle(this); // NC TO CHECK - MULTIPLE?! TO DO?!
+    // to transfer the SetChatbotHandle.
+    _chatLogic->SetChatbotHandle(this); 
 
-    source._image       = NULL;        
-    source._currentNode = nullptr;
+    source._image       = NULL;     // NULL => old wxWidgets specific      
+    source._currentNode = nullptr;  // modern nullptr
     source._rootNode    = nullptr;
     source._chatLogic   = nullptr;
 }
@@ -148,10 +144,7 @@ ChatBot& ChatBot::operator=(ChatBot&& source)
     // But only if something was created! 
     // ChatBot could have been constructed without assignment 
     if (_image != NULL){
-        std::cout << "DEBUG ONLY ... delete own _image " << std::endl;
         delete _image;
-    } else {
-        std::cout << "DEBUG ONLY ... no _image to delete" << std::endl;
     }
     
     // copy pointers - could be a NULL/nullptr or a non-NULL/nullptr
@@ -161,11 +154,11 @@ ChatBot& ChatBot::operator=(ChatBot&& source)
     _chatLogic   = source._chatLogic;
 
     // In the case where you are removing the source ChatBot, makes sense
-    // to transfer the SetChatbotHandle... but what about Copy cases??
-    _chatLogic->SetChatbotHandle(this); // NC TO CHECK - MULTIPLE?! TO DO?!   
+    // to transfer the SetChatbotHandle.
+    _chatLogic->SetChatbotHandle(this);   
 
-    source._image       = NULL;        
-    source._currentNode = nullptr;
+    source._image       = NULL;     // NULL => old wxWidgets specific
+    source._currentNode = nullptr;  // modern nullptr
     source._rootNode    = nullptr;
     source._chatLogic   = nullptr;
 

@@ -5,7 +5,7 @@
 
 GraphNode::GraphNode(int id)
 {
-    std::cout << "Construct GraphNode ID = " << id << "\n";
+    // DEBUG std::cout << "Construct GraphNode ID = " << id << "\n";
     _id = id;
 }
 
@@ -14,7 +14,7 @@ GraphNode::~GraphNode()
     //// STUDENT CODE - Task 0: Fix the Bug
     ////
 
-    std::cout << "Delete chatbot 2nd Time in GraphNode... NO LONGER \n";
+    // std::cout << "Delete chatbot 2nd Time in GraphNode... NO LONGER \n";
     // You didn't create it. You don't own it? You shouldn't delete it.
     // FIX - REMOVE -> delete _chatBot; 
 
@@ -50,7 +50,10 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 //// STUDENT CODE - Task 5: Moving the ChatBot 
 ////
 //   WAS ... void GraphNode::MoveChatbotHere(ChatBot *chatbot)
-void GraphNode::MoveChatbotHere(ChatBot &&chatbot)
+//   ALTERNATIVE: MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot)
+//                if _chatBot was a unique_ptr 
+//                => _chatBot.reset(std::move(pChatbot)); => correct?
+void GraphNode::MoveChatbotHere(ChatBot chatbot)
 {
     _chatBot = std::move(chatbot);
     _chatBot.SetCurrentNode(this);

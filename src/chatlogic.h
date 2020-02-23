@@ -21,7 +21,8 @@ private:
     // WAS... std::vector<GraphEdge *> _edges;
     std::vector<std::unique_ptr<GraphNode>> _nodes;
 
-    // REMOVE? std::vector<std::unique_ptr<GraphEdge>> _edges; // IS THIS EVEN USED?? NC REMOVE??
+    // NC REMOVED: std::vector<std::unique_ptr<GraphEdge>> _edges; 
+    // IS THIS EVEN STILL USED? NC REMOVED
 
     ////
     //// EOF STUDENT CODE

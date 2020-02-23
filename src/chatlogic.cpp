@@ -129,12 +129,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         //// STUDENT CODE - Task 3: Exclusive Ownership 2
                         ////
 
-                        std::cout << "Add node...\n";
-
                         // check if node with this ID exists already
                         // WAS ... auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
                         // https://www.internalpointers.com/post/move-smart-pointers-and-out-functions-modern-c
-                        // I DO NOT WANT TO ALTER OWNERSHIP!! BUT I CAN"T GET THIS TO COMPILE ANY OTHER WAY?!? 
+                        // I DO NOT WANT TO ALTER OWNERSHIP!! BUT I CAN"T GET THIS TO COMPILE ANY OTHER WAY? 
                         auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](std::unique_ptr<GraphNode> &node) { return node->GetID() == id; });
 
                         // create new element if ID does not yet exist
@@ -146,10 +144,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             //         transferring ownership in the process 
                             // Alternative would be make_unique? Same effect? 
 
-                            std::cout << "Creating node ... " << id << "\n";
+                            // std::cout << "Creating node ... " << id << "\n";
                             //_nodes.emplace_back(std::unique_ptr<GraphNode>(new GraphNode(id)));
-                            _nodes.emplace_back(new GraphNode(id));
-                            std::cout << "Created node ... " << id << "\n";
+                            _nodes.emplace_back(std::make_unique<GraphNode>(id));
+                            //_nodes.emplace_back(new GraphNode(id)
 
                             newNode = _nodes.end() - 1; // get iterator to last element
 
@@ -167,7 +165,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         //// STUDENT CODE - Task 3: Exclusive Ownership 2
                         ////
 
-                        std::cout << "Add edge...\n";
+                        // std::cout << "Add edge...\n";
 
                         // find tokens for incoming (parent) and outgoing (child) node
                         auto parentToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string> &pair) { return pair.first == "PARENT"; });
@@ -176,35 +174,20 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         if (parentToken != tokens.end() && childToken != tokens.end())
                         {
                             // get iterator on incoming and outgoing node via ID search
-                            // I DO NO LIKE THIS ... better solution? 
-                            //auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](GraphNode *node) { return node->GetID() == std::stoi(parentToken->second); });
-                            //auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](GraphNode *node) { return node->GetID() == std::stoi(childToken->second); });
                             auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](std::unique_ptr<GraphNode> &node) { return node->GetID() == std::stoi(parentToken->second); });
                             auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](std::unique_ptr<GraphNode> &node) { return node->GetID() == std::stoi(childToken->second); });
 
-                            // create new edge
-                            // NC TODO CHECK CAREFULLY!!
-                            // GraphEdge *edge = new GraphEdge(id);
-                            
+                            // create new edge   
                             std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
 
-                            // WAS...  edge->SetChildNode(*childNode);
-                            // WAS...  edge->SetParentNode(*parentNode);
                             edge->SetChildNode((*childNode).get());
                             edge->SetParentNode((*parentNode).get());
-                            //_edges.push_back(std::unique_ptr<GraphEdge>(edge)); // create unique_ptr from ordinary pointer
-
-                            //_edges.push_back(std::make_unique<GraphEdge>(id)); 
-                            //_edges.back()->SetChildNode((*childNode).get());
-                            //_edges.back()->SetParentNode((*parentNode).get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
                             // AddAllTokensToElement("KEYWORD", tokens, *_edges.back().get());
 
                             // store reference in child node and parent node
-                            // WAS ... (*childNode)->AddEdgeToParentNode(edge);
-                            // WAS ... (*parentNode)->AddEdgeToChildNode(edge);
                             (*childNode)->AddEdgeToParentNode(edge.get());
                             (*parentNode)->AddEdgeToChildNode(std::move(edge));
                         }
@@ -239,23 +222,19 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
         // search for nodes which have no incoming edges
         if ((*it)->GetNumberOfParents() == 0)
         {
-            std::cout << "DEBUG ONLY - found the root ... \n";
-
             if (rootNode == nullptr)
             {
                 // WAS ... rootNode = *it; // assign current node to root
-                rootNode = (*it).get(); // assign current node to root - do not transfer ownership
+                //rootNode = (*it).get(); // assign current node to root - do not transfer ownership
+                rootNode = it->get();
             }
+
             else
             {
                 std::cout << "ERROR : Multiple root nodes detected" << std::endl;
             }
         }
     }
-
-    std::cout << "Create the chatbot... once...\n";
-
-    // And then it all changed in Task 5 ... 
 
     ChatBot chatBot("../images/chatbot.png");
 
@@ -264,35 +243,30 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     // add chatbot to graph root node
     chatBot.SetRootNode(rootNode);
+
     rootNode->MoveChatbotHere(std::move(chatBot));
 
-    std::cout << "HERE GOES !!!! \n";
-    
     ////
     //// EOF STUDENT CODE
 }
 
 void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog *panelDialog)
 {
-    std::cout << "ChatLogic::SetPanelDialogHandle loaded .................. \n";
     _panelDialog = panelDialog;
 }
 
 void ChatLogic::SetChatbotHandle(ChatBot *chatbot)
 {
-    std::cout << "ChatLogic::SendMessageToChatbot ..................... \n";
     _chatBot = chatbot;
 }
 
 void ChatLogic::SendMessageToChatbot(std::string message)
 {
-    std::cout << "ChatLogic::SendMessageToChatbot ..................... \n";
     _chatBot->ReceiveMessageFromUser(message);
 }
 
 void ChatLogic::SendMessageToUser(std::string message)
 {
-    std::cout << "ChatLogic::SendMessageToUser ..................... \n";
     _panelDialog->PrintChatbotResponse(message);
 }
 

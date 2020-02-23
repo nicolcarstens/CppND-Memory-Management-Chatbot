@@ -25,8 +25,10 @@ private:
     // Node does NOT own Incoming Edges (edges to preceding nodes)
     std::vector<GraphEdge *> _parentEdges; 
     
-    // Node does NOT own the ChatBot ... now it does!
+    // Node did not own the ChatBot ... now it does!
     // WAS .. ChatBot *_chatBot;
+    // Alternative:
+    // -->> [ChatBot *_chatBot] => [std::unique_ptr<ChatBot> _chatBot] ? 
     ChatBot _chatBot;
 
     ////
@@ -57,7 +59,9 @@ public:
     ////
 
     //  WAS ... void MoveChatbotHere(ChatBot *chatbot);
-    void MoveChatbotHere(ChatBot &&chatbot);    
+    //  Then I made it ... void MoveChatbotHere(ChatBot &&chatbot);
+    //  But then Move Constructor is not called ...  
+    void MoveChatbotHere(ChatBot chatbot);    
 
     ////
     //// EOF STUDENT CODE

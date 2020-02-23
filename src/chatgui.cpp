@@ -52,8 +52,6 @@ ChatBotFrame::ChatBotFrame(const wxString &title) : wxFrame(NULL, wxID_ANY, titl
 
 void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
 {
-    std::cout << "I HAVE AN ENTER!! \n";
-
     // retrieve text from text control
     wxString userText = _userTextCtrl->GetLineText(0);
 
@@ -69,7 +67,7 @@ void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
     //    smart pointer. Just don't be reckless. Pay attention to ownership. 
     //    In this case ownership wasn't tranferred, and interface reflects that. 
     // Changed to a reference... does that change anything really?? * or & -> same 
-     _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
+     _panelDialog->GetChatLogicHandle().SendMessageToChatbot(std::string(userText.mb_str()));
 }
 
 BEGIN_EVENT_TABLE(ChatBotFrameImagePanel, wxPanel)
@@ -127,7 +125,7 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     // create chat logic instance
     // Notes on make_unique rather than new:
     // https://stackoverflow.com/questions/37514509/advantages-of-using-stdmake-unique-over-new-operator
-    // REMOVED NC: _chatLogic = new ChatLogic(); 
+    // REPLACED NC: _chatLogic = new ChatLogic(); 
     _chatLogic = std::make_unique<ChatLogic>();
 
     // pass pointer to chatbot dialog so answers can be displayed in GUI
@@ -209,8 +207,8 @@ ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel *parent, wxString text, b
     // ALTERNATIVE NC: wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle().GetImageFromChatbot(); 
     // -> depends on GetChatLogicHandle() returning reference or raw pointer - doesn't really mattter 
     //    ownership is NOT influenced!! (thus no smartpointer transfer - raw pointer or reference fine) 
-    wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle()->GetImageFromChatbot(); 
-
+    wxBitmap *bitmap = isFromUser == true ? nullptr : ((ChatBotPanelDialog*)parent)->GetChatLogicHandle().GetImageFromChatbot(); 
+ 
     // create image and text
     _chatBotImg = new wxStaticBitmap(this, wxID_ANY, (isFromUser ? wxBitmap(imgBasePath + "user.png", wxBITMAP_TYPE_PNG) : *bitmap), wxPoint(-1, -1), wxSize(-1, -1));
     _chatBotTxt = new wxStaticText(this, wxID_ANY, text, wxPoint(-1, -1), wxSize(150, -1), wxALIGN_CENTRE | wxBORDER_NONE);

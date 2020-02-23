@@ -37,7 +37,7 @@ public:
     // Return a reference not a pointer... right? Could return pointer or reference.    
     // REPLACED NC: ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }     
     // ALTERNATIVE: ChatLogic &GetChatLogicHandle() { return *_chatLogic; }
-    ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }
+    ChatLogic &GetChatLogicHandle() { return *_chatLogic; }
 
     // events
     void paintEvent(wxPaintEvent &evt);
