@@ -248,10 +248,18 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
         }
     }
 
+    //=============================================================================
     // OPTION 1: 
     ChatBot chatBot("../images/chatbot.png");
+    //=============================================================================
     // OPTION 2: 
     // std::unique_ptr<ChatBot> chatBot(std::make_unique<ChatBot>("../images/chatbot.png"));
+    // NOT an option because requirement states: 
+    // =>  "In file chatlogic.cpp, a local ChatBot instance is created on the stack 
+    //      at the bottom of function LoadAnswerGraphFromFile and move semantics are 
+    //      used to pass the ChatBot instance into the root node."
+    // If a unique_ptr was used the move semantics of the object would not be required
+    //=============================================================================
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
     chatBot.SetChatLogicHandle(this);
