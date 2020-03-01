@@ -61,14 +61,20 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 
 //// STUDENT CODE - Task 5: Moving the ChatBot 
 ////
+
+//===================================================================
 //   WAS ... void GraphNode::MoveChatbotHere(ChatBot *chatbot)
 //   ALTERNATIVE: MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot)
 //                if _chatBot was a unique_ptr 
 //                => _chatBot.reset(std::move(pChatbot)); => correct?
+//===================================================================
 //  OPTION 1: 
 void GraphNode::MoveChatbotHere(ChatBot chatbot)
-//  OPTION 2 ...
-//  void GraphNode::MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot) 
+//===================================================================
+//  OPTION 2 ... NOT AN OPTION ... 
+//  void GraphNode::MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot)
+//  Requirement calls for an instance being moved here  
+//===================================================================
 {
     // OPTION 1: 
     _chatBot = std::move(chatbot);
