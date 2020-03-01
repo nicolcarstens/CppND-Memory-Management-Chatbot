@@ -1,3 +1,15 @@
+/******************************************************************************
+*
+*  Udacity Nanodegree in C++
+*  Memory Management ChatBot - Project 3 
+*
+*  Work done by Nicol Carstens, February/March 2020
+*  Baseline code provided by udacity.com
+*
+*  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************/
+
 #include "graphedge.h"
 #include "graphnode.h"
 
@@ -55,7 +67,7 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 //                => _chatBot.reset(std::move(pChatbot)); => correct?
 //  OPTION 1: 
 void GraphNode::MoveChatbotHere(ChatBot chatbot)
-//  OPTION 2 ... 
+//  OPTION 2 ...
 //  void GraphNode::MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot) 
 {
     // OPTION 1: 

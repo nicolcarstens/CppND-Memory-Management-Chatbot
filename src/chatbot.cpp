@@ -1,3 +1,15 @@
+/******************************************************************************
+*
+*  Udacity Nanodegree in C++
+*  Memory Management ChatBot - Project 3 
+*
+*  Work done by Nicol Carstens, February/March 2020
+*  Baseline code provided by udacity.com
+*
+*  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************/
+
 #include <iostream>
 #include <random>
 #include <algorithm>
@@ -15,10 +27,6 @@ ChatBot::ChatBot()
     _image = nullptr; 
     _chatLogic = nullptr;
     _rootNode = nullptr;
-
-    // NC QUESTION: why is _currentNode not getting set to nullptr?
-
-    // std::cout << "ChatBot Constructor - WITHOUT memory allocation" << std::endl;
 }
 
 // CONSTRUCTOR WITH memory allocation - 0 of 5
@@ -29,8 +37,6 @@ ChatBot::ChatBot(std::string filename)
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
-
-    // NC QUESTION (again): why is _currentNode not getting set to nullptr?
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
@@ -44,7 +50,6 @@ ChatBot::~ChatBot()
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-        // std::cout << "I delete ... " << _image << " of size " <<  sizeof(*_image) << "\n";
         delete _image;  // NC NOTE: only delete what you own! 
         _image = NULL;
     }

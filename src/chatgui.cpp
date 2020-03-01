@@ -1,3 +1,15 @@
+/******************************************************************************
+*
+*  Udacity Nanodegree in C++
+*  Memory Management ChatBot - Project 3 
+*
+*  Work done by Nicol Carstens, February/March 2020
+*  Baseline code provided by udacity.com
+*
+*  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************/
+
 #include <wx/filename.h>
 #include <wx/colour.h>
 #include <wx/image.h>
@@ -66,7 +78,8 @@ void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
     // -> Get over it. Yes: dangerous to have a raw pointer of object managed by a 
     //    smart pointer. Just don't be reckless. Pay attention to ownership. 
     //    In this case ownership wasn't tranferred, and interface reflects that. 
-    // Changed to a reference... does that change anything really?? * or & -> same 
+    // Considered changing it to a reference... 
+    // -> Does that change anything really? No because: * or & -> same risks 
      _panelDialog->GetChatLogicHandle().SendMessageToChatbot(std::string(userText.mb_str()));
 }
 

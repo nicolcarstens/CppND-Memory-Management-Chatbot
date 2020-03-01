@@ -1,3 +1,15 @@
+/******************************************************************************
+*
+*  Udacity Nanodegree in C++
+*  Memory Management ChatBot - Project 3 
+*
+*  Work done by Nicol Carstens, February/March 2020
+*  Baseline code provided by udacity.com
+*
+*  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************/
+
 #ifndef GRAPHNODE_H_
 #define GRAPHNODE_H_
 
@@ -27,12 +39,9 @@ private:
     
     // Node did not own the ChatBot ... now it does!
     // WAS .. ChatBot *_chatBot;
-    // Alternative:
-    // -->> [ChatBot *_chatBot] => [std::unique_ptr<ChatBot> _chatBot] ? 
     ChatBot _chatBot;
-    // OPTION 2 ...
-    // std::unique_ptr<ChatBot> _chatBot;  <<== but option 2 results in 
-    // segmentation 11 error that I have not been able to resolve 
+    // OPTION 2 ... ?
+    // std::unique_ptr<ChatBot> _chatBot;  
 
     ////
     //// EOF STUDENT CODE

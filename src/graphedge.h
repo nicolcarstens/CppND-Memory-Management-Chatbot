@@ -1,3 +1,15 @@
+/******************************************************************************
+*
+*  Udacity Nanodegree in C++
+*  Memory Management ChatBot - Project 3 
+*
+*  Work done by Nicol Carstens, February/March 2020
+*  Baseline code provided by udacity.com
+*
+*  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************/
+
 #ifndef GRAPHEDGE_H_
 #define GRAPHEDGE_H_
 
