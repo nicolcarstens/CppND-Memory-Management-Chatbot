@@ -88,7 +88,6 @@ public:
     void AddToken(std::string token); // add answers to list
     void AddEdgeToParentNode(GraphEdge *edge);
 
-
     // Two options to pass edge -> lvalue reference or rvalue
     // See call in chatlogic.cpp -> (*parentNode)->AddEdgeToChildNode(edge);
     // https://www.internalpointers.com/post/move-smart-pointers-and-out-functions-modern-c 
