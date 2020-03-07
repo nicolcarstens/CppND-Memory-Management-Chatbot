@@ -6,7 +6,18 @@
 *  Work done by Nicol Carstens, February/March 2020
 *  Baseline code provided by udacity.com
 *
+*  Status: ready to submit (7 March 2020)
+*
 *  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************
+*
+*  TASK 1: Exclusive Ownership 1
+*  
+*  In file chatgui.h / chatgui.cpp, _chatLogic is made an exclusive 
+*  resource to class ChatbotPanelDialog using an appropriate smart pointer. 
+*  Where required, changes are made to the code such that data structures 
+*  and function parameters reflect the new structure.
 *
 ******************************************************************************/
 

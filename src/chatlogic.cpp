@@ -6,8 +6,48 @@
 *  Work done by Nicol Carstens, February/March 2020
 *  Baseline code provided by udacity.com
 *
+*  Status: ready to submit (7 March 2020)
+*
 *  Copyright: Nicol Carstens & Udacity 2020
 *
+******************************************************************************
+*
+*  TASK 3: Exclusive Ownership 2
+* 
+*  In file chatlogic.h / chatlogic.cpp, the vector _nodes are adapted in a 
+*  way that the instances of GraphNodes to which the vector elements refer 
+*  are exclusively owned by the class ChatLogic. An appropriate type of smart 
+*  pointer is used to achieve this.
+*
+******************************************************************************
+*
+*  TASK 4: Moving Smart Pointers
+*
+*  In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp all 
+*  instances of GraphEdge are changed in a way such that each instance of 
+*  GraphNode exclusively owns the outgoing GraphEdges and holds non-owning 
+*  references to incoming GraphEdges. Appropriate smart pointers are used to 
+*  do this. Where required, changes are made to the code such that data 
+*  structures and function parameters reflect the changes.
+*
+*  In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp, 
+*  move semantics are used when transferring ownership from class ChatLogic, 
+*  where all instances of GraphEdge are created, into instances of GraphNode.
+* 
+******************************************************************************
+*
+*  TASK 5: Moving the ChatBot
+*
+*  In file chatlogic.cpp, a local ChatBot instance is created on the stack at 
+*  the bottom of function LoadAnswerGraphFromFile and move semantics are used 
+*  to pass the ChatBot instance into the root node.
+*
+*  ChatLogic has no ownership relation to the ChatBot instance and thus is no 
+*  longer responsible for memory allocation and deallocation.
+*
+*  When the program is executed, messages are printed to the console indicating 
+*  which Rule of Five component of ChatBot is being called.
+* 
 ******************************************************************************/
 
 #include <fstream>
@@ -154,12 +194,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             // WAS ... _nodes.emplace_back(new GraphNode(id));
                             // NOW ... create a new GraphNode and covert pointer to unique_ptr, 
                             //         transferring ownership in the process 
-                            // Alternative would be make_unique? Same effect? 
 
-                            // std::cout << "Creating node ... " << id << "\n";
-                            // _nodes.emplace_back(std::unique_ptr<GraphNode>(new GraphNode(id)));
                             _nodes.emplace_back(std::make_unique<GraphNode>(id));
-                            // _nodes.emplace_back(new GraphNode(id);
+
+                            // Alternative would be make_unique? Same effect? 
+                            // But less safe way to create a unique_ptr
+                            // _nodes.emplace_back(std::unique_ptr<GraphNode>(new GraphNode(id)));
 
                             newNode = _nodes.end() - 1; // get iterator to last element
 
@@ -176,8 +216,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                     {
                         //// STUDENT CODE - Task 3: Exclusive Ownership 2
                         ////
-
-                        // std::cout << "Add edge...\n";
 
                         // find tokens for incoming (parent) and outgoing (child) node
                         auto parentToken = std::find_if(tokens.begin(), tokens.end(), [](const std::pair<std::string, std::string> &pair) { return pair.first == "PARENT"; });
@@ -237,7 +275,9 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
             if (rootNode == nullptr)
             {
                 // WAS ... rootNode = *it; // assign current node to root
-                //rootNode = (*it).get(); // assign current node to root - do not transfer ownership
+
+                // rootNode = (*it).get(); // assign current node to root
+                                           // do not transfer ownership
                 rootNode = it->get();
             }
 

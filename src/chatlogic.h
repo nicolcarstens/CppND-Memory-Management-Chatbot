@@ -6,7 +6,18 @@
 *  Work done by Nicol Carstens, February/March 2020
 *  Baseline code provided by udacity.com
 *
+*  Status: ready to submit (7 March 2020)
+*
 *  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************
+*
+*  TASK 3: Exclusive Ownership 2
+* 
+*  In file chatlogic.h / chatlogic.cpp, the vector _nodes are adapted in a 
+*  way that the instances of GraphNodes to which the vector elements refer 
+*  are exclusively owned by the class ChatLogic. An appropriate type of smart 
+*  pointer is used to achieve this.
 *
 ******************************************************************************/
 

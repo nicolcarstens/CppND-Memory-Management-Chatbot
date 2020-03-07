@@ -6,8 +6,25 @@
 *  Work done by Nicol Carstens, February/March 2020
 *  Baseline code provided by udacity.com
 *
+*  Status: ready to submit (7 March 2020)
+*
 *  Copyright: Nicol Carstens & Udacity 2020
 *
+******************************************************************************
+*
+*  TASK 4: Moving Smart Pointers
+*
+*  In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp all 
+*  instances of GraphEdge are changed in a way such that each instance of 
+*  GraphNode exclusively owns the outgoing GraphEdges and holds non-owning 
+*  references to incoming GraphEdges. Appropriate smart pointers are used to 
+*  do this. Where required, changes are made to the code such that data 
+*  structures and function parameters reflect the changes.
+*
+*  In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp, 
+*  move semantics are used when transferring ownership from class ChatLogic, 
+*  where all instances of GraphEdge are created, into instances of GraphNode.
+* 
 ******************************************************************************/
 
 #include "graphedge.h"
@@ -64,30 +81,24 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 
 //===================================================================
 //   WAS ... void GraphNode::MoveChatbotHere(ChatBot *chatbot)
+//   NOW ....void GraphNode::MoveChatbotHere(ChatBot chatbot)
 //   ALTERNATIVE: MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot)
 //                if _chatBot was a unique_ptr 
-//                => _chatBot.reset(std::move(pChatbot)); => correct?
+//                ... but ... NOT AN OPTION?! 
+//  Requirement calls for an instance (not ptr) being moved here  
 //===================================================================
-//  OPTION 1: 
 void GraphNode::MoveChatbotHere(ChatBot chatbot)
-//===================================================================
-//  OPTION 2 ... NOT AN OPTION ... 
-//  void GraphNode::MoveChatbotHere(std::unique_ptr<ChatBot> pChatbot)
-//  Requirement calls for an instance being moved here  
-//===================================================================
 {
-    // OPTION 1: 
     _chatBot = std::move(chatbot);
     _chatBot.SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    // OPTION 1: newNode->MoveChatbotHere(std::move(_chatBot));
     newNode->MoveChatbotHere(std::move(_chatBot));
 
     // WAS ... _chatBot = nullptr; // invalidate pointer at source
-    // Nothing to be done?! 
+    // Nothing to be done? No? Smart Pointer takes care of source. 
 }
 ////
 //// EOF STUDENT CODE

@@ -6,7 +6,20 @@
 *  Work done by Nicol Carstens, February/March 2020
 *  Baseline code provided by udacity.com
 *
+*  Status: ready to submit (7 March 2020)
+*
 *  Copyright: Nicol Carstens & Udacity 2020
+*
+******************************************************************************
+* 
+*  TASK 2: The Rule of Five
+*
+*  In file chatbot.h / chatbot.cpp, changes are made to the class ChatBot 
+*  such that it complies with the Rule of Five. Memory resources are 
+*  properly allocated / deallocated on the heap and member data is copied 
+*  where it makes sense. In each of the methods (e.g. the copy constructor), 
+*  a string of the type "ChatBot Copy Constructor" is printed to the console 
+*  so that it is possible to see which method is called in later examples.
 *
 ******************************************************************************/
 
@@ -66,7 +79,7 @@ ChatBot::ChatBot(const ChatBot& source)
     //_image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
     _image = new wxBitmap();
 
-    // you want to copy the data, not the pointer - deep copy?! 
+    // you want to copy the data, not the pointer - deep copy! 
     *_image = *source._image;    
 
     // copy pointers - could be a NULL/nullptr or a non-NULL/nullptr
@@ -75,7 +88,7 @@ ChatBot::ChatBot(const ChatBot& source)
     _chatLogic   = source._chatLogic;
 
     // In the case where you are removing the source ChatBot, makes sense
-    // to transfer the SetChatbotHandle... but what about Copy cases??
+    // to transfer the SetChatbotHandle... but what about Copy cases?
     // Should not need to copy the ChatBot? Only one ever created. Unique.
     _chatLogic->SetChatbotHandle(this);    
 }
@@ -99,7 +112,7 @@ ChatBot& ChatBot::operator=(const ChatBot& source)
     //_image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
     _image = new wxBitmap();
 
-    // you want to copy the data, not the pointer - deep copy?! 
+    // you want to copy the data, not the pointer - deep copy! 
     *_image = *source._image;    
 
     // copy pointers - could be a NULL/nullptr or a non-NULL/nullptr
@@ -126,8 +139,8 @@ ChatBot::ChatBot(ChatBot&& source)
     _rootNode    = source._rootNode;
     _chatLogic   = source._chatLogic;
 
-    // In the case where you are removing the source ChatBot, makes sense
-    // to transfer the SetChatbotHandle.
+    // In the case where you are removing the source ChatBot, 
+    // makes sense to transfer the SetChatbotHandle.
     _chatLogic->SetChatbotHandle(this); 
 
     source._image       = NULL;     // NULL => old wxWidgets specific      

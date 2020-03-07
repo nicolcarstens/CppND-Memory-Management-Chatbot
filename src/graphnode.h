@@ -6,8 +6,25 @@
 *  Work done by Nicol Carstens, February/March 2020
 *  Baseline code provided by udacity.com
 *
+*  Status: ready to submit (7 March 2020)
+*
 *  Copyright: Nicol Carstens & Udacity 2020
 *
+******************************************************************************
+*
+*  TASK 4: Moving Smart Pointers
+*
+*  In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp all 
+*  instances of GraphEdge are changed in a way such that each instance of 
+*  GraphNode exclusively owns the outgoing GraphEdges and holds non-owning 
+*  references to incoming GraphEdges. Appropriate smart pointers are used to 
+*  do this. Where required, changes are made to the code such that data 
+*  structures and function parameters reflect the changes.
+*
+*  In files chatlogic.h / chatlogic.cpp and graphnodes.h / graphnodes.cpp, 
+*  move semantics are used when transferring ownership from class ChatLogic, 
+*  where all instances of GraphEdge are created, into instances of GraphNode.
+* 
 ******************************************************************************/
 
 #ifndef GRAPHNODE_H_
@@ -41,7 +58,11 @@ private:
     // Node did not own the ChatBot ... now it does!
     // WAS .. ChatBot *_chatBot;
     ChatBot _chatBot;
-    // OPTION 2 ... ?
+
+    // OPTION 2 ... ? Not an option given requirements Task 5, but otherwise 
+    //                do no see a reason why it would not be an option 
+    //                If it was a pointer transferring ownership you would
+    //                not see the move semantics in action 
     // std::unique_ptr<ChatBot> _chatBot;  
 
     ////
@@ -76,7 +97,9 @@ public:
     //  But then Move Constructor is not called ...  
     //  OPTION 1: 
     void MoveChatbotHere(ChatBot chatbot); 
-    //  OPTION 2: ... makes ownership very clear?
+    
+    //  OPTION 2: ... makes ownership very clear? 
+    //  ... but you won't be calling the ChatBot Move Constructor
     //  void MoveChatbotHere(std::unique_ptr<ChatBot> chatbot); 
 
     ////

@@ -6,6 +6,8 @@
 *  Work done by Nicol Carstens, February/March 2020
 *  Baseline code provided by udacity.com
 *
+*  Status: ready to submit (7 March 2020)
+*
 *  Copyright: Nicol Carstens & Udacity 2020
 *
 ******************************************************************************/
@@ -29,7 +31,6 @@ private:
     // proprietary members
     int _id;
     std::vector<std::string> _keywords; // list of topics associated with this edge
-    
 
 public:
     // constructor / desctructor
