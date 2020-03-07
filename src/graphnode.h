@@ -87,6 +87,15 @@ public:
     // proprietary functions
     void AddToken(std::string token); // add answers to list
     void AddEdgeToParentNode(GraphEdge *edge);
+
+
+    // Two options to pass edge -> lvalue reference or rvalue
+    // See call in chatlogic.cpp -> (*parentNode)->AddEdgeToChildNode(edge);
+    // https://www.internalpointers.com/post/move-smart-pointers-and-out-functions-modern-c 
+    // OPTION 1: GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
+    // OPTION 2: GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> &edge)
+    //           pass edge by lvalue reference rather than move ... 
+    //           ... but lvalue reference can't be called with rvalue!
     void AddEdgeToChildNode(std::unique_ptr<GraphEdge> &edge);
 
     //// STUDENT CODE - Task 5 : Moving the ChatBot
