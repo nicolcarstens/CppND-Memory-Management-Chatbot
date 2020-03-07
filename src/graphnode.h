@@ -87,20 +87,23 @@ public:
     // proprietary functions
     void AddToken(std::string token); // add answers to list
     void AddEdgeToParentNode(GraphEdge *edge);
-    void AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge);
+    void AddEdgeToChildNode(std::unique_ptr<GraphEdge> &edge);
 
     //// STUDENT CODE - Task 5 : Moving the ChatBot
     ////
 
     //  WAS ... void MoveChatbotHere(ChatBot *chatbot);
     //  Then I made it ... void MoveChatbotHere(ChatBot &&chatbot);
-    //  But then Move Constructor is not called ...  
+    //  But then Move Constructor is not called ... 
     //  OPTION 1: 
     void MoveChatbotHere(ChatBot chatbot); 
     
     //  OPTION 2: ... makes ownership very clear? 
     //  ... but you won't be calling the ChatBot Move Constructor
-    //  void MoveChatbotHere(std::unique_ptr<ChatBot> chatbot); 
+    //  ... and call to ChatBot Move Constructor is required!! 
+    //  2.1 => void MoveChatbotHere(std::unique_ptr<ChatBot> &chatbot); 
+    //  2.2 => void MoveChatbotHere(std::unique_ptr<ChatBot> chatbot);  
+    //  NB: 2.2 can be called with lvalue or rvalue and 2.1 only with lvalue  
 
     ////
     //// EOF STUDENT CODE

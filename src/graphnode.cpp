@@ -63,7 +63,7 @@ void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
+void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> &edge)
 {
     // Note: section not highlighted for modification, but necessary... 
     //       ... unless I missed something ... 

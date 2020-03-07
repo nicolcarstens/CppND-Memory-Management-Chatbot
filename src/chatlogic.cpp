@@ -239,7 +239,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
                             // store reference in child node and parent node
                             (*childNode)->AddEdgeToParentNode(edge.get());
-                            (*parentNode)->AddEdgeToChildNode(std::move(edge));
+                            // pass edge by lvalue reference rather than move ... 
+                            //   GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> &edge) ... vs ... 
+                            //   GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
+                            // https://www.internalpointers.com/post/move-smart-pointers-and-out-functions-modern-c
+                            (*parentNode)->AddEdgeToChildNode(edge);
+
                         }
 
                         ////
